@@ -7,3 +7,4 @@ CUDA half of the SOFT354 assignment
 
 Install the following packages:
 - gtest
+- lodepng
