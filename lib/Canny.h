@@ -5,7 +5,7 @@
 #include "Matrix2D.h"
 
 namespace Canny {
-    Matrix2D<float> generateGrayscaleImage(std::vector<unsigned char> originalImage, unsigned int width, unsigned int height);
+    std::vector<unsigned char> generateGrayscaleImage(std::vector<unsigned char> originalImage, unsigned int pixelWidth, unsigned int pixelHeight);
 
     Matrix2D<float> generateGaussianKernel();
 }

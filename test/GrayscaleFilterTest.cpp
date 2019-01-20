@@ -10,18 +10,15 @@ TEST(GrayscaleFilter, SinglePixelImage) {
     // Pixel with RGB mean of 100, at 20% opacity...
     std::vector<unsigned char> pixel = {50, 100, 150, 51};
     // Therefore, resulting grayscale intensity should be 20:
-    auto expectedIntensityElements = (float*) malloc(sizeof(float));
-    expectedIntensityElements[0] = 20.0;
-    Matrix2D<float> expectedIntensityMatrix = Matrix2D(expectedIntensityElements, 1, 1);
+    std::vector<unsigned char> expectedGrayscalePixels = {20, 20, 20, 255};
+    std::vector<unsigned char> actualGrayscalePixels = Canny::generateGrayscaleImage(pixel, width, height);
 
-    Matrix2D<float> actualIntensityMatrix = Canny::generateGrayscaleImage(pixel, width, height);
-
-    EXPECT_EQ(actualIntensityMatrix.width, expectedIntensityMatrix.width);
-    EXPECT_EQ(actualIntensityMatrix.height, expectedIntensityMatrix.height);
-    EXPECT_FLOAT_EQ(actualIntensityMatrix.elements[0], expectedIntensityMatrix.elements[0]);
-
-    free(expectedIntensityElements);
+    EXPECT_EQ(actualGrayscalePixels[0], expectedGrayscalePixels[0]);
+    EXPECT_EQ(actualGrayscalePixels[1], expectedGrayscalePixels[1]);
+    EXPECT_EQ(actualGrayscalePixels[2], expectedGrayscalePixels[2]);
+    EXPECT_EQ(actualGrayscalePixels[3], expectedGrayscalePixels[3]);
 }
+
 TEST(GrayscaleFilter, MultiPixelImage) {
     unsigned int width = 2, height = 2;
 
@@ -32,19 +29,15 @@ TEST(GrayscaleFilter, MultiPixelImage) {
                                          20, 90, 190, 204};
 
     // Therefore, resulting grayscale intensity matrix should be 20, 40, 60, 80:
-    auto expectedIntensityElements = (float*) malloc(sizeof(float) * 4);
-    expectedIntensityElements[0] = 20.0;
-    expectedIntensityElements[1] = 40.0;
-    expectedIntensityElements[2] = 60.0;
-    expectedIntensityElements[3] = 80.0;
-    Matrix2D<float> expectedIntensityMatrix = Matrix2D(expectedIntensityElements, 2, 2);
+    std::vector<unsigned char> expectedGrayscalePixels = {20, 20, 20, 255,
+                                                          40, 40, 40, 255,
+                                                          60, 60, 60, 255,
+                                                          80, 80, 80, 255};
+    std::vector<unsigned char> actualGrayscalePixels = Canny::generateGrayscaleImage(pixels, width, height);
 
-    Matrix2D<float> actualIntensityMatrix = Canny::generateGrayscaleImage(pixels, width, height);
-
-    EXPECT_EQ(actualIntensityMatrix.width, expectedIntensityMatrix.width);
-    EXPECT_EQ(actualIntensityMatrix.height, expectedIntensityMatrix.height);
-    EXPECT_FLOAT_EQ(actualIntensityMatrix.elements[0], expectedIntensityMatrix.elements[0]);
-    EXPECT_FLOAT_EQ(actualIntensityMatrix.elements[1], expectedIntensityMatrix.elements[1]);
-    EXPECT_FLOAT_EQ(actualIntensityMatrix.elements[2], expectedIntensityMatrix.elements[2]);
-    EXPECT_FLOAT_EQ(actualIntensityMatrix.elements[3], expectedIntensityMatrix.elements[3]);
+    int i = 0;
+    for (auto const& expectedRgbaValue: expectedGrayscalePixels) {
+        EXPECT_EQ(actualGrayscalePixels[i], expectedRgbaValue);
+        ++i;
+    }
 }
