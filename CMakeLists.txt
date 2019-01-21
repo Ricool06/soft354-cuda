@@ -17,6 +17,7 @@ add_subdirectory(lib)
 add_subdirectory(test)
 
 configure_file(img/tiger.png img/tiger.png COPYONLY)
+configure_file(img/flowers.png img/flowers.png COPYONLY)
 
 add_executable(${EXECUTABLE} main.cpp)
 target_link_libraries(${EXECUTABLE} ${LIBRARY})
